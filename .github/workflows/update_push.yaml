@@ -1,0 +1,54 @@
+name: Auto Push Updated Score Info
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Setup Python Environment
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+
+    - name: Get Score Assistant Repo
+      run: git clone https://github.com/PeiPei233/ZJUScoreAssistant.git
+
+    - name: Install Python Dependencies
+      run: pip install -r ZJUScoreAssistant/requirements.txt
+
+    - name: Run Python Script
+      run: |
+        echo "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\", \"url\": \"$WEBHOOK\"}" > database.json
+        timeout 1m python ZJUScoreAssistant/zjuscore.py -dn || true
+      env:
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        WEBHOOK: ${{ secrets.WEBHOOK }}
+    
+    - name: Check if dingscore.json is updated
+      id: checkjson
+      run: |
+        git diff --exit-code dingscore.json || echo "changed=true" >> $GITHUB_OUTPUT
+    
+    - name: Push generated dingscore.json
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout main
+        git add dingscore.json
+        git commit -m "Automatically update dingscore.json"
+        git push origin main
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      if: steps.checkjson.outputs.changed
