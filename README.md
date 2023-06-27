@@ -1,4 +1,4 @@
-# zju-score-push-sample
+# zju-score-push-template
 你的成绩更新钉钉通知推送助手😋
 
 使用了 [https://github.com/PeiPei233/ZJUScoreAssistant](https://github.com/PeiPei233/ZJUScoreAssistant)
