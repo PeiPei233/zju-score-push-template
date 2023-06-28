@@ -30,7 +30,7 @@ jobs:
     - name: Run Python Script
       run: |
         echo "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\", \"url\": \"$WEBHOOK\"}" > database.json
-        timeout 1m python ZJUScoreAssistant/zjuscore.py -dn || true
+        timeout 1m python ZJUScoreAssistant/zjuscore.py -u -dn || true
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
