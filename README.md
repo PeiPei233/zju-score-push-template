@@ -21,7 +21,7 @@
 
 如果想修改间隔时间，可以修改 `.github/workflows/update_push.yml` 中的 `schedule` 字段，将其中 `- cron: '*/5 * * * *'` 中的数字 5 改为你想要的数字（分钟数）即可。
 
-由于 GitHub 限制，最终间隔时间不一定是设定的间隔时间，导致推送有延迟，并且私有仓库使用免费 Actions 的次数受限：[具体细则点这里](https://docs.github.com/en/billing/managing-billing-for-github-actions/managing-your-spending-limit-for-github-actions)，有能力建议将推送服务挂在自己的服务器上。
+由于 GitHub 限制，最终间隔时间不一定是设定的间隔时间，导致推送有延迟，并且私有仓库使用免费 Actions 的次数受限：[关于 GitHub Actions 的计费](https://docs.github.com/zh/billing/managing-billing-for-github-actions/about-billing-for-github-actions)，有能力建议将推送服务挂在自己的服务器上。
 
 由于钉钉限制了机器人的推送频率，因此在第一次刷新时可能会出现只推送了部分成绩的情况，不影响后续使用。
 
